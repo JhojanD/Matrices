@@ -27,9 +27,9 @@ public class Matrices {
         vectorAux = new int[rc];
         System.out.println("Ok, a llenarlas");
         count = 0;
-        for (int i = 0; i < matriz.length; i++) {
+        for (int i = 0; i < rows; i++) {
 
-            for (int j = 0; j < matriz.length; j++) {
+            for (int j = 0; j < colums; j++) {
 
                 //double datasDouble = Math.random()*100+10;
                 //Aquí escoge números aleatorios de 0 a 200
@@ -42,27 +42,28 @@ public class Matrices {
 
         System.out.println("Matrices LLenas");
         System.out.println("¿quieres ver la matriz? 1)si, 0)no");
-        sw = sca.nextInt();
+        int res = sca.nextInt();
 
-        if (sw != 0) {
+        if (res != 0) {
             mostrarMatriz();
         } else {
-            System.out.println("Adios");
+            System.out.println("");
         }
     }
 
     public static void ordenarMatriz() {
         //Primero se crea la lista (Recuerda que es List<Integer>)
-        //profe le vote case todo un dia y esta probado de que funciona 
+        //profe le vote casi todo un dia y esta probado se que funciona 
+
         list = new ArrayList<Integer>();
-        count = 0; 
-        for (int i = 0; i < matriz.length; i++) {
-            for (int j = 0; j < matriz.length; j++) {
+        count = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < colums; j++) {
                 //Se pasa el matriz a la lista
                 list.add(matriz[i][j]);
             }
         }
-        
+
         //Sea crea el vector con el tamaño de la lista (int[])
         vectorAux = new int[list.size()];
         for (int i = 0; i < vectorAux.length; i++) {
@@ -83,9 +84,9 @@ public class Matrices {
 //        for (int i = 0; i < vectorAux.length; i++) {
 //            System.out.println("[" + vectorAux[i]+"]");
 //        }
-        
-        for (int i = 0; i < matriz.length; i++) {
-            for (int j = 0; j < matriz.length; j++) {
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < colums; j++) {
                 matriz[i][j] = vectorAux[count];
                 count++;
             }
@@ -93,9 +94,45 @@ public class Matrices {
         mostrarMatriz();
     }
 
+    public static void borrardato() {
+        for (int i = 0; i < rows; i++) {
+            System.out.println("Fila:" + i);
+            for (int j = 0; j < colums; j++) {
+                System.out.print(j + ".");
+                System.out.print("[" + matriz[i][j] + "]");
+
+            }
+            System.out.println();
+        }
+
+        System.out.println("¿En que fila se encuentra el dato?");
+        int row = sca.nextInt();
+        System.out.println("¿En que posicion de la fila "+row+" se encuentra el dato?");
+        int colum = sca.nextInt();
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < colums; j++) {
+                if (i == row && j == colum) {
+                    System.out.println("Se borro el dato: " + matriz[i][j]);
+                    matriz[i][j] = 0;
+                }
+            }
+        }
+        
+        System.out.println("¿quieres ver la nueva matriz? 1)si, 0)no");
+        int res = sca.nextInt();
+
+        if (res != 0) {
+            mostrarMatriz();
+        } else {
+            System.out.println("Ok, Ya no podras volverla a ver (la matriz con el dato borrado)");
+        }
+        
+    }
+
     public static void mostrarMatriz() {
-        for (int i = 0; i < matriz.length; i++) {
-            for (int j = 0; j < matriz.length; j++) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < colums; j++) {
 
                 System.out.print("[" + matriz[i][j] + "]");
 
@@ -121,7 +158,6 @@ public class Matrices {
             switch (option) {
                 case 1:
                     llenarMatriz();
-
                     break;
                 case 2:
                     mostrarMatriz();
@@ -130,6 +166,7 @@ public class Matrices {
                     ordenarMatriz();
                     break;
                 case 4:
+                    borrardato();
                     break;
                 case 5:
                     break;
