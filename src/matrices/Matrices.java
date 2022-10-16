@@ -6,6 +6,7 @@ import java.util.Random;
 public class Matrices {
 
     public static int[][] matriz;
+    public static int[][] matrizModify;
     public static int[] vectorAux;
     public static int[] diagoPrincipal;
     public static int[] diagoSecundaria;
@@ -35,7 +36,7 @@ public class Matrices {
 
                 //double datasDouble = Math.random()*100+10;
                 //Aquí escoge números aleatorios de 0 a 200
-                datas = rand.nextInt(100);
+                datas = rand.nextInt(1000);
                 matriz[i][j] = datas;
                 int dato = matriz[i][j];
             }
@@ -140,16 +141,13 @@ public class Matrices {
         System.out.println("");
     }
 
-    public static void trianguloInferior() {
+    public static void modificarMatrizApar() {
         //Se crea una lista para la matriz
         list = new ArrayList<Integer>();
-        
+
         //se crea una lista para el vector
         List<Integer> listVector = new ArrayList<Integer>();
-        Vector vector = new Vector();
-        
-        
-        
+
         //Se pasa la matriz a la lista
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < colums; j++) {
@@ -164,53 +162,71 @@ public class Matrices {
             //Se pasa la lista al vector
             vectorAux[i] = list.get(i);
         }
-        
-        //Se pasa el vector a la lista para el vector
+
         for (int i = 0; i < vectorAux.length; i++) {
             listVector.add(vectorAux[i]);
         }
+
         count = 0;
 
         int totalMatriz = rows + colums;
 
         int order = totalMatriz / 2;
         //Creamos la matriz modificada 
-        int[][] matrizModify = new int[order][order];
-        
+        matrizModify = new int[order][order];
+
         //y pasamos la lista del vector a la matriz modificada
-        outer: for (int i = 0; i < order; i++) {
+        outer:
+        for (int i = 0; i < order; i++) {
             for (int j = 0; j < order; j++) {
                 //se le pone un limitante al contador
-                if(count == vectorAux.length){
+                if (count == vectorAux.length) {
                     break outer;
                 }
                 matrizModify[i][j] = vectorAux[count];
                 count++;
             }
-            
+
         }
-        
+
         //Imprimimos la matriz modificada 
+        System.out.println("Su matriz se modifico a una matriz cuadrada");
         for (int i = 0; i < order; i++) {
             for (int j = 0; j < order; j++) {
                 System.out.print("[" + matrizModify[i][j] + "]");
             }
             System.out.println("");
         }
-        
+    }
+
+    public static void trianguloInferior() {
+        System.out.println("\n\n");
         //Se muestra el triangulo inferior de la matriz 
-        for (int i = 0; i < order; i++) {
+        for (int i = 0; i < matrizModify.length; i++) {
             for (int j = 0; j < i; j++) {
                 System.out.print("[" + matrizModify[i][j] + "]");
+                if(i<j){
+                    System.out.println("-");
+                }
             }
             System.out.println("");
         }
+        
+    }
 
+    public static void trianguloSuperior() {
+        System.out.println("\n\n");
+        for (int i = 0; i < matrizModify.length; i++) {
+            for (int j = 0; j < matrizModify.length; j++) {
+                if (i < j) System.out.print("[" + matrizModify[i][j] + "]");
+                else System.out.print("-");
+            }
+            System.out.println("");
+        }
     }
 
     public static void masOptions() {
-        System.out.println("\n\nAdvertencia: Estas opciones funcionan mejor con matrices"
-                + " Cuadradas.\n\n"
+        System.out.println(""
                 + "a)Diagonal Principal\n"
                 + "b)Diagonal Segundaria\n"
                 + "c)Triangulo superior\n"
@@ -220,42 +236,45 @@ public class Matrices {
 
         switch (answer) {
             case "a":
-                diagoPrincipal = new int[matriz.length];
 
-                for (int i = 0; i < matriz.length; i++) {
-                    for (int j = 0; j < matriz[i].length; j++) {
+                modificarMatrizApar();
+
+                diagoPrincipal = new int[matrizModify.length];
+
+                for (int i = 0; i < matrizModify.length; i++) {
+                    for (int j = 0; j < matrizModify[i].length; j++) {
                         if (i == j) {
-                            diagoPrincipal[i] = matriz[i][j];
+                            diagoPrincipal[i] = matrizModify[i][j];
                         }
 
                     }
                 }
-                mostrarMatriz();
                 System.out.println("\n\nDiagonal Principal");
                 visualizarDiagonal(diagoPrincipal);
 
                 break;
             case "b":
-                diagoSecundaria = new int[matriz.length];
+                modificarMatrizApar();
 
-                for (int i = 0; i < matriz.length; i++) {
-                    for (int j = 0; j < matriz[i].length; j++) {
-                        if (i + j == matriz.length - 1) {
-                            diagoSecundaria[i] = matriz[i][j];
+                diagoSecundaria = new int[matrizModify.length];
+
+                for (int i = 0; i < matrizModify.length; i++) {
+                    for (int j = 0; j < matrizModify[i].length; j++) {
+                        if (i + j == matrizModify.length - 1) {
+                            diagoSecundaria[i] = matrizModify[i][j];
                         }
                     }
                 }
-                mostrarMatriz();
                 System.out.println("\n\nDiagonal Secundaria");
                 visualizarDiagonal(diagoSecundaria);
                 break;
 
             case "c":
-                int totalMatriz = rows + colums;
-                int order = totalMatriz / 2;
-
+                modificarMatrizApar();
+                trianguloSuperior();
                 break;
             case "d":
+                modificarMatrizApar();
                 trianguloInferior();
                 break;
             default:
