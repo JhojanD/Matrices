@@ -7,6 +7,8 @@ public class Matrices {
 
     public static int[][] matriz;
     public static int[] vectorAux;
+    public static int[] diagoPrincipal;
+    public static int[] diagoSecundaria;
     public static Scanner sca;
     public static Random rand = new Random();
     public static int sw = 1;
@@ -107,7 +109,7 @@ public class Matrices {
 
         System.out.println("¿En que fila se encuentra el dato?");
         int row = sca.nextInt();
-        System.out.println("¿En que posicion de la fila "+row+" se encuentra el dato?");
+        System.out.println("¿En que posicion de la fila " + row + " se encuentra el dato?");
         int colum = sca.nextInt();
 
         for (int i = 0; i < rows; i++) {
@@ -118,7 +120,7 @@ public class Matrices {
                 }
             }
         }
-        
+
         System.out.println("¿quieres ver la nueva matriz? 1)si, 0)no");
         int res = sca.nextInt();
 
@@ -127,7 +129,95 @@ public class Matrices {
         } else {
             System.out.println("Ok, Ya no podras volverla a ver (la matriz con el dato borrado)");
         }
-        
+
+    }
+
+    public static void visualizarDiagonal(int[] vectoring) {
+
+        for (int i = 0; i < vectoring.length; i++) {
+            System.out.print("\t" + vectoring[i]);
+        }
+        System.out.println("");
+    }
+
+    public static void masOptions() {
+        System.out.println("\n\nAdvertencia: Estas opciones funcionan mejor con matrices"
+                + " Cuadradas.\n\n"
+                + "a)Diagonal Principal\n"
+                + "b)Diagonal Segundaria\n"
+                + "c)Triangulo superior\n"
+                + "d)Triangulo inferior\n"
+        );
+        String answer = sca.next();
+
+        switch (answer) {
+            case "a":
+                diagoPrincipal = new int[matriz.length];
+
+                for (int i = 0; i < matriz.length; i++) {
+                    for (int j = 0; j < matriz[i].length; j++) {
+                        if (i == j) {
+                            diagoPrincipal[i] = matriz[i][j];
+                        }
+
+                    }
+                }
+                mostrarMatriz();
+                System.out.println("\n\nDiagonal Principal");
+                visualizarDiagonal(diagoPrincipal);
+
+                break;
+            case "b":
+                diagoSecundaria = new int[matriz.length];
+
+                for (int i = 0; i < matriz.length; i++) {
+                    for (int j = 0; j < matriz[i].length; j++) {
+                        if (i + j == matriz.length - 1) {
+                            diagoSecundaria[i] = matriz[i][j];
+                        }
+                    }
+                }
+                mostrarMatriz();
+                System.out.println("\n\nDiagonal Secundaria");
+                visualizarDiagonal(diagoSecundaria);
+                break;
+
+            case "c":
+                int sum = 0;
+                for (int i = 1; i < rows; i++) {
+                    for (int j = 0; j < colums; j++) {
+                        if (j < i) {
+                            sum += matriz[i][j];
+                        }
+                    }
+                }
+
+                if (sum == 0) {
+                    System.out.println("Es una matriz triagular superior");
+                } else {
+                    System.out.println("No es una matriz triagular superior");
+                }
+                break;
+            case "d":
+                sum = 0;
+                for (int j = 1; j < colums; j++) {
+                    for (int i = 0; i < rows; i++) {
+                        if (i < j) {
+                            sum += matriz[i][j];
+                        }
+                    }
+                }
+
+                if (sum == 0) {
+                    System.out.println("Es una matriz triagular inferior");
+                } else {
+                    System.out.println("No es una matriz triagular inferior");
+                }
+                break;
+            default:
+                System.out.println("Opcion equivocada");
+                break;
+        }
     }
 
     public static void mostrarMatriz() {
@@ -151,6 +241,7 @@ public class Matrices {
                     + "3)Ordenar Matriz por Selección\n"
                     + "4)Borrar dato Matriz\n"
                     + "5)Más opiones: \n"
+                    + "0)salir"
                     + "¿Cual escoges?");
 
             int option = sca.nextInt();
@@ -160,17 +251,40 @@ public class Matrices {
                     llenarMatriz();
                     break;
                 case 2:
-                    mostrarMatriz();
+                    if (matriz != null) {
+                        mostrarMatriz();
+                    } else {
+                        System.out.println("No has llenado la matris");
+                    }
                     break;
                 case 3:
-                    ordenarMatriz();
+                    if (matriz != null) {
+                        ordenarMatriz();
+                    } else {
+                        System.out.println("No has llenado la matris");
+                    }
                     break;
                 case 4:
-                    borrardato();
+                    if (matriz != null) {
+                        borrardato();
+                    } else {
+                        System.out.println("No has llenado la matris");
+                    }
                     break;
                 case 5:
+                    if (matriz != null) {
+                        masOptions();
+                    } else {
+                        System.out.println("No has llenado la matris");
+                    }
                     break;
-
+                case 0:
+                    System.out.println("Adios");
+                    sw = 0;
+                    break;
+                default:
+                    System.out.println("Opcion equivocada");
+                    break;
             }
         }
     }
