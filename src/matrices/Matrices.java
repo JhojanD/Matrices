@@ -140,6 +140,74 @@ public class Matrices {
         System.out.println("");
     }
 
+    public static void trianguloInferior() {
+        //Se crea una lista para la matriz
+        list = new ArrayList<Integer>();
+        
+        //se crea una lista para el vector
+        List<Integer> listVector = new ArrayList<Integer>();
+        Vector vector = new Vector();
+        
+        
+        
+        //Se pasa la matriz a la lista
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < colums; j++) {
+                //Se pasa el matriz a la lista
+                list.add(matriz[i][j]);
+            }
+        }
+
+        //Sea crea el vector con el tamaño de la lista (int[])
+        vectorAux = new int[list.size()];
+        for (int i = 0; i < vectorAux.length; i++) {
+            //Se pasa la lista al vector
+            vectorAux[i] = list.get(i);
+        }
+        
+        //Se pasa el vector a la lista para el vector
+        for (int i = 0; i < vectorAux.length; i++) {
+            listVector.add(vectorAux[i]);
+        }
+        count = 0;
+
+        int totalMatriz = rows + colums;
+
+        int order = totalMatriz / 2;
+        //Creamos la matriz modificada 
+        int[][] matrizModify = new int[order][order];
+        
+        //y pasamos la lista del vector a la matriz modificada
+        outer: for (int i = 0; i < order; i++) {
+            for (int j = 0; j < order; j++) {
+                //se le pone un limitante al contador
+                if(count == vectorAux.length){
+                    break outer;
+                }
+                matrizModify[i][j] = vectorAux[count];
+                count++;
+            }
+            
+        }
+        
+        //Imprimimos la matriz modificada 
+        for (int i = 0; i < order; i++) {
+            for (int j = 0; j < order; j++) {
+                System.out.print("[" + matrizModify[i][j] + "]");
+            }
+            System.out.println("");
+        }
+        
+        //Se muestra el triangulo inferior de la matriz 
+        for (int i = 0; i < order; i++) {
+            for (int j = 0; j < i; j++) {
+                System.out.print("[" + matrizModify[i][j] + "]");
+            }
+            System.out.println("");
+        }
+
+    }
+
     public static void masOptions() {
         System.out.println("\n\nAdvertencia: Estas opciones funcionan mejor con matrices"
                 + " Cuadradas.\n\n"
@@ -183,36 +251,12 @@ public class Matrices {
                 break;
 
             case "c":
-                int sum = 0;
-                for (int i = 1; i < rows; i++) {
-                    for (int j = 0; j < colums; j++) {
-                        if (j < i) {
-                            sum += matriz[i][j];
-                        }
-                    }
-                }
+                int totalMatriz = rows + colums;
+                int order = totalMatriz / 2;
 
-                if (sum == 0) {
-                    System.out.println("Es una matriz triagular superior");
-                } else {
-                    System.out.println("No es una matriz triagular superior");
-                }
                 break;
             case "d":
-                sum = 0;
-                for (int j = 1; j < colums; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        if (i < j) {
-                            sum += matriz[i][j];
-                        }
-                    }
-                }
-
-                if (sum == 0) {
-                    System.out.println("Es una matriz triagular inferior");
-                } else {
-                    System.out.println("No es una matriz triagular inferior");
-                }
+                trianguloInferior();
                 break;
             default:
                 System.out.println("Opcion equivocada");
